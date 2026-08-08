@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USDT Global Pool - Dashboard</title>
+    <!-- Bootstrap CSS for modern styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #ffc107 !important;
+        }
+        .card-custom {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .wallet-box {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .wallet-box-2 {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar with Project Name -->
+    <nav class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">🌐 USDT Global Pool</a>
+            <span class="text-white">ID: <span id="user-id" class="text-warning">U GP-8592</span></span>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container my-4">
+        
+        <!-- Welcome Banner -->
+        <div class="p-4 mb-4 bg-white rounded-3 shadow-sm border">
+            <h2 class="text-primary">Welcome to USDT Global Pool</h2>
+            <p class="text-muted mb-0">आपका स्मार्ट और सुरक्षित अर्निंग प्लेटफॉर्म (TRC-20 आधारित)</p>
+        </div>
+
+        <!-- Wallets Section -->
+        <div class="row">
+            <!-- Working Income Wallet -->
+            <div class="col-md-6">
+                <div class="wallet-box">
+                    <h5>💼 Working Income Wallet</h5>
+                    <h3 id="working-bal">0.00 USDT</h3>
+                    <small>डायरेक्ट और लेवल इनकम (निकासी के लिए डायरेक्ट अनिवार्य नहीं)</small>
+                </div>
+            </div>
+
+            <!-- Non-Working Income Wallet -->
+            <div class="col-md-6">
+                <div class="wallet-box-2">
+                    <h5>🌐 Non-Working (Auto-Pool) Wallet</h5>
+                    <h3 id="non-working-bal">0.00 USDT</h3>
+                    <small>ग्लोबल पूल इनकम (निकासी के लिए 2 डायरेक्ट अनिवार्य)</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons Section -->
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <button class="btn btn-primary btn-lg m-2" data-bs-toggle="modal" data-bs-target="#depositModal">Deposit (TRC-20)</button>
+                <button class="btn btn-success btn-lg m-2" data-bs-toggle="modal" data-bs-target="#withdrawModal">Withdraw (10% Fee)</button>
+                <button class="btn btn-info btn-lg m-2 text-white">View Team Tree</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Deposit Modal -->
+    <div class="modal fade" id="depositModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Deposit USDT (TRC-20)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>कृपया नीचे दिए गए एड्रेस पर फंड भेजें:</p>
+                    <div class="p-2 bg-light border rounded text-break font-monospace fw-bold text-primary">
+                        TV5twCuksDpGL4vHrY6VvWb1dzvXdcBBZC
+                    </div>
+                    <p class="text-muted mt-2 small">पेमेंट करने के बाद ट्रांजैक्शन हैश (TXID) एडमिन को भेजें।</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div class="modal fade" id="withdrawModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Withdrawal Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <mb-3 class="mb-3">
+                        <label class="form-label">TRC-20 Wallet Address</label>
+                        <input type="text" class="form-control" placeholder="Enter your TRC-20 address">
+                    </mb-3>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">Amount (Min 10 USDT)</label>
+                        <input type="number" class="form-control" placeholder="0.00">
+                        <small class="text-danger">नोट: हर निकासी पर 10% चार्ज कटेगा।</small>
+                    </div>
+                    <button class="btn btn-success w-100 mt-2">Submit Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
