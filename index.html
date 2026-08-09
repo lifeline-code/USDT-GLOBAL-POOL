@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USDT Global Pool - Register & Login</title>
+    <title>USDT Global Pool - Admin & User Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -14,7 +14,7 @@
 </head>
 <body>
 
-    <!-- 1. REGISTRATION SECTION (Initially Shown if coming from referral link) -->
+    <!-- 1. REGISTRATION SECTION -->
     <div id="register-section" class="container">
         <div class="auth-card">
             <h3 class="text-center text-primary mb-2">🌐 USDT Global Pool</h3>
@@ -37,17 +37,17 @@
             </div>
 
             <button class="btn btn-success w-100 mb-3" onclick="registerUser()">रजिस्टर करें (Register)</button>
-            
             <p class="text-center mb-0 small">पहिले से खाता है? <a href="#" onclick="showLogin(event)" class="text-primary fw-bold">लॉगिन करें</a></p>
         </div>
     </div>
 
 
-    <!-- 2. LOGIN SECTION (Initially Hidden) -->
+    <!-- 2. LOGIN SECTION -->
     <div id="login-section" class="container" style="display:none;">
         <div class="auth-card">
             <h3 class="text-center text-primary mb-2">🌐 USDT Global Pool</h3>
             <p class="text-center text-muted small">सुरक्षित लॉगिन (Login)</p>
+            <small class="text-danger d-block mb-2 text-center">💡 एडमिन लॉगिन: मोबाइल <b>9999999999</b> और पासवर्ड <b>Admin@123</b></small>
             
             <div class="mb-3">
                 <label class="form-label">मोबाइल नंबर</label>
@@ -60,13 +60,12 @@
             </div>
 
             <button class="btn btn-primary w-100 mb-3" onclick="secureLogin()">लॉगिन करें (Login)</button>
-            
             <p class="text-center mb-0 small">नया खाता बनाना है? <a href="#" onclick="showRegister(event)" class="text-success fw-bold">रजिस्टर करें</a></p>
         </div>
     </div>
 
 
-    <!-- 3. MAIN DASHBOARD SECTION (Initially Hidden) -->
+    <!-- 3. REGULAR USER DASHBOARD SECTION -->
     <div id="dashboard-section" style="display:none;">
         <nav class="navbar navbar-dark bg-dark shadow-sm">
             <div class="container-fluid">
@@ -76,18 +75,16 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal">🔒 Change Password</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger fw-bold" href="#" onclick="logoutUser()">🚪 Logout (लॉग आउट)</a></li>
+                        <li><a class="dropdown-item text-danger fw-bold" href="#" onclick="logoutUser()">🚪 Logout</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
 
         <div class="container my-4">
-            <!-- Welcome & Referral Link -->
             <div class="p-4 mb-4 bg-white rounded-3 shadow-sm border">
                 <h2 class="text-primary">Welcome to Dashboard</h2>
                 <p class="text-muted mb-2">आईडी स्थिति: <span id="id-status" class="badge bg-danger">Inactive</span></p>
-                
                 <div class="alert alert-warning mt-3 mb-0">
                     <label class="form-label fw-bold">🔗 आपका यूनिक रेफरल लिंक:</label>
                     <div class="input-group">
@@ -97,7 +94,6 @@
                 </div>
             </div>
 
-            <!-- Wallets Section -->
             <div class="row">
                 <div class="col-md-6">
                     <div class="wallet-box">
@@ -115,21 +111,102 @@
                 </div>
             </div>
 
-            <!-- Action Buttons -->
             <div class="row mt-3">
                 <div class="col-12 text-center">
                     <button class="btn btn-primary btn-lg m-2" data-bs-toggle="modal" data-bs-target="#depositModal">Deposit (TRC-20)</button>
                     <button class="btn btn-warning btn-lg m-2 text-dark" data-bs-toggle="modal" data-bs-target="#upgradeModal">🚀 Upgrade ID</button>
                     <button class="btn btn-success btn-lg m-2" data-bs-toggle="modal" data-bs-target="#withdrawModal">Withdraw (10% Fee)</button>
-                    <button class="btn btn-info btn-lg m-2 text-white">View Team Tree</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 4. ADMIN PANEL SECTION (With Separate Deposit & Withdrawal Menus) -->
+    <div id="admin-section" style="display:none;">
+        <nav class="navbar navbar-dark bg-danger shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">👑 USDT Global Pool - Admin Panel</a>
+                <div class="dropdown">
+                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">⚙️ Admin Menu</button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item fw-bold text-primary" href="#deposit-section-admin">📥 Deposit Requests (<span id="dep-count">1</span>)</a></li>
+                        <li><a class="dropdown-item fw-bold text-success" href="#withdraw-section-admin">📤 Withdrawal Requests (<span id="wd-count">1</span>)</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger fw-bold" href="#" onclick="logoutUser()">🚪 Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container my-4">
+            <div class="p-4 mb-4 bg-white rounded-3 shadow-sm border">
+                <h2 class="text-danger">Admin Control Center</h2>
+                <p class="text-muted">यहाँ से आप यूज़र्स के डिपॉजिट और विथड्रॉल रिक्वेस्ट को अलग-अलग मैनेज और अप्रूव कर सकते हैं।</p>
+            </div>
+
+            <!-- 1. Deposit Requests Table -->
+            <div class="card shadow-sm mb-4" id="deposit-section-admin">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">📥 Pending Deposit Requests (डिपॉजिट अनुरोध)</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Mobile / ID</th>
+                                    <th>Package</th>
+                                    <th>TXID (Hash)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-deposit-table">
+                                <tr>
+                                    <td>9876543210 (UGP-8821)</td>
+                                    <td>5 USDT</td>
+                                    <td class="font-monospace text-truncate" style="max-width: 150px;">a1b2c3d4e5f6...</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-success fw-bold" onclick="approveDeposit(this, '9876543210')">✅ Approve Deposit</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div class="text-center mt-4">
-                <a href="https://wa.me/?text=Hello%20Admin,%20I%20have%20made%20payment%20for%20USDT%20Global%20Pool." target="_blank" class="btn btn-outline-success">
-                    💬 एडमिन से व्हाट्सएप पर संपर्क करें (Send TXID)
-                </a>
+            <!-- 2. Withdrawal Requests Table -->
+            <div class="card shadow-sm" id="withdraw-section-admin">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">📤 Pending Withdrawal Requests (विथड्रॉल अनुरोध)</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Mobile / ID</th>
+                                    <th>Amount</th>
+                                    <th>TRC-20 Address</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-withdraw-table">
+                                <tr>
+                                    <td>9123456789 (UGP-4432)</td>
+                                    <td>20 USDT</td>
+                                    <td class="font-monospace text-truncate" style="max-width: 150px;">TV5twCuksDpGL...</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary fw-bold" onclick="approveWithdrawal(this, '9123456789')">✅ Pay & Approve</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -143,8 +220,8 @@
                     <p>एड्रेस पर फंड भेजें:</p>
                     <div class="p-2 bg-light border rounded text-break font-monospace fw-bold text-primary mb-3">TV5twCuksDpGL4vHrY6VvWb1dzvXdcBBZC</div>
                     <input type="text" id="txid-input" class="form-control mb-3" placeholder="Enter Transaction Hash (TXID)">
-                    <button class="btn btn-primary w-100" onclick="submitDeposit()">Submit Request</button>
-                    <p id="deposit-success-msg" class="text-success fw-bold mt-3" style="display: none;">✅ आईडी सक्सेसफुल एक्टिव (ID Successfully Active)!</p>
+                    <button class="btn btn-primary w-100" onclick="submitDeposit()">Submit Deposit Request</button>
+                    <p id="deposit-success-msg" class="text-success fw-bold mt-3" style="display: none;">✅ रिक्वेस्ट एडमिन को भेज दी गई है!</p>
                 </div>
             </div>
         </div>
@@ -159,10 +236,6 @@
                         <option value="5">5 USDT</option>
                         <option value="10">10 USDT</option>
                         <option value="30">30 USDT</option>
-                        <option value="60">60 USDT</option>
-                        <option value="120">120 USDT</option>
-                        <option value="250">250 USDT</option>
-                        <option value="500">500 USDT</option>
                     </select>
                     <button class="btn btn-warning w-100 text-dark fw-bold" onclick="upgradePackage()">Upgrade Now</button>
                 </div>
@@ -199,7 +272,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Switch views
         function showLogin(e) {
             e.preventDefault();
             document.getElementById('register-section').style.display = 'none';
@@ -212,29 +284,23 @@
             document.getElementById('register-section').style.display = 'block';
         }
 
-        // Registration Logic with Password Validation
         function registerUser() {
             let phone = document.getElementById('reg-phone').value;
             let pass = document.getElementById('reg-password').value;
             let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-            if(phone.length < 10) {
-                alert("कृपया सही मोबाइल नंबर दर्ज करें!");
-                return;
-            }
+            if(phone.length < 10) { alert("कृपया सही मोबाइल नंबर दर्ज करें!"); return; }
             if(!regex.test(pass)) {
-                alert("पासवर्ड कम से कम 8 अक्षर का होना चाहिए जिसमें Capital letter (A-Z), Small letter (a-z), Number (0-9) और Special character (@$!%*?&) शामिल होने चाहिए!");
+                alert("पासवर्ड कम से कम 8 अक्षर का होना चाहिए (Capital, Small, Number & Special Character के साथ)!");
                 return;
             }
 
             alert("रजिस्ट्रेशन सफल रहा! अब आप लॉगिन कर सकते हैं।");
-            // Switch to Login screen automatically
             document.getElementById('register-section').style.display = 'none';
             document.getElementById('login-section').style.display = 'block';
             document.getElementById('login-phone').value = phone;
         }
 
-        // Secure Login Logic
         function secureLogin() {
             let phone = document.getElementById('login-phone').value;
             let pass = document.getElementById('login-password').value;
@@ -244,14 +310,18 @@
                 return;
             }
 
-            // Open Dashboard
-            document.getElementById('login-section').style.display = 'none';
-            document.getElementById('dashboard-section').style.display = 'block';
+            if(phone === "9999999999" && pass === "Admin@123") {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('admin-section').style.display = 'block';
+            } else {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('dashboard-section').style.display = 'block';
+            }
         }
 
-        // Logout Logic
         function logoutUser() {
             document.getElementById('dashboard-section').style.display = 'none';
+            document.getElementById('admin-section').style.display = 'none';
             document.getElementById('login-section').style.display = 'block';
             document.getElementById('login-phone').value = '';
             document.getElementById('login-password').value = '';
@@ -267,11 +337,23 @@
 
         function submitDeposit() {
             let txid = document.getElementById('txid-input').value;
-            if(txid.trim() === "") { alert("TXID दर्ज करें!"); return; }
+            if(txid.trim() === "") { alert("कृपया वैध TXID दर्ज करें!"); return; }
             document.getElementById('deposit-success-msg').style.display = 'block';
-            document.getElementById('id-status').className = 'badge bg-success';
-            document.getElementById('id-status').innerText = 'Active (नॉन-वर्किंग चालू)';
-            document.getElementById('non-working-bal').innerText = '15.00 USDT';
+            alert("डिपॉजिट रिक्वेस्ट एडमिन को भेज दी गई है!");
+        }
+
+        // Admin Deposit Approval
+        function approveDeposit(btn, userMob) {
+            btn.closest('tr').remove();
+            document.getElementById('dep-count').innerText = "0";
+            alert("यूजर (" + userMob + ") का डिपॉजिट अप्रूव हो गया है!");
+        }
+
+        // Admin Withdrawal Approval
+        function approveWithdrawal(btn, userMob) {
+            btn.closest('tr').remove();
+            document.getElementById('wd-count').innerText = "0";
+            alert("यूजर (" + userMob + ") का विथड्रॉल पेमेंट क्लियर कर दिया गया है!");
         }
 
         function processWithdrawal() {
@@ -281,7 +363,7 @@
             if(wAmount > currentBal) { alert("पर्याप्त बैलेंस नहीं है!"); return; }
             
             document.getElementById('working-bal').innerText = (currentBal - wAmount).toFixed(2) + " USDT";
-            alert("विथड्रॉल सफल रहा! बैलेंस से राशि माइनस हो गई है।");
+            alert("विथड्रॉल रिक्वेस्ट एडमिन को भेज दी गई है और बैलेंस से राशि माइनस हो गई है!");
         }
 
         function upgradePackage() {
@@ -293,7 +375,7 @@
             let pass = document.getElementById('new-pass').value;
             let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
             if(!regex.test(pass)) {
-                alert("नया पासवर्ड कम से कम 8 अक्षर का होना चाहिए (Capital, Small, Number & Special Character के साथ)!");
+                alert("नया पासवर्ड कम से कम 8 अक्षर का होना चाहिए!");
             } else {
                 alert("पासवर्ड सफलतापूर्वक बदल गया है!");
             }
