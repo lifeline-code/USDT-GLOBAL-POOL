@@ -3,26 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USDT Global Pool - Secure Login & Dashboard</title>
+    <title>USDT Global Pool - Register & Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .auth-card { max-width: 400px; margin: 50px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .auth-card { max-width: 400px; margin: 40px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .wallet-box { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
         .wallet-box-2 { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
-    <!-- 1. SECURE LOGIN SECTION -->
-    <div id="auth-section" class="container">
+    <!-- 1. REGISTRATION SECTION (Initially Shown if coming from referral link) -->
+    <div id="register-section" class="container">
         <div class="auth-card">
-            <h3 class="text-center text-primary mb-3">🌐 USDT Global Pool</h3>
-            <p class="text-center text-muted small">सुरक्षित लॉगिन (मोबाइल नंबर और पासवर्ड)</p>
+            <h3 class="text-center text-primary mb-2">🌐 USDT Global Pool</h3>
+            <p class="text-center text-muted small">नया खाता बनाएँ (New Registration)</p>
+            
+            <div class="mb-3">
+                <label class="form-label">स्पॉन्सर / रेफरल कोड</label>
+                <input type="text" id="reg-sponsor" class="form-control bg-light" value="UGP-9824X" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">मोबाइल नंबर</label>
+                <input type="text" id="reg-phone" class="form-control" placeholder="अपना मोबाइल नंबर दर्ज करें">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">पासवर्ड (कम से कम 8 अक्षर)</label>
+                <input type="password" id="reg-password" class="form-control" placeholder="Capital, Small, Number & Special Char">
+                <small class="text-muted" style="font-size: 11px;">उदा: Abcd@1234</small>
+            </div>
+
+            <button class="btn btn-success w-100 mb-3" onclick="registerUser()">रजिस्टर करें (Register)</button>
+            
+            <p class="text-center mb-0 small">पहिले से खाता है? <a href="#" onclick="showLogin(event)" class="text-primary fw-bold">लॉगिन करें</a></p>
+        </div>
+    </div>
+
+
+    <!-- 2. LOGIN SECTION (Initially Hidden) -->
+    <div id="login-section" class="container" style="display:none;">
+        <div class="auth-card">
+            <h3 class="text-center text-primary mb-2">🌐 USDT Global Pool</h3>
+            <p class="text-center text-muted small">सुरक्षित लॉगिन (Login)</p>
             
             <div class="mb-3">
                 <label class="form-label">मोबाइल नंबर</label>
-                <input type="text" id="login-phone" class="form-control" placeholder="अपना रजिस्टर्ड मोबाइल नंबर दर्ज करें">
+                <input type="text" id="login-phone" class="form-control" placeholder="रजिस्टर्ड मोबाइल नंबर दर्ज करें">
             </div>
 
             <div class="mb-3">
@@ -30,12 +59,14 @@
                 <input type="password" id="login-password" class="form-control" placeholder="अपना पासवर्ड दर्ज करें">
             </div>
 
-            <button class="btn btn-primary w-100" onclick="secureLogin()">लॉगिन करें (Login)</button>
+            <button class="btn btn-primary w-100 mb-3" onclick="secureLogin()">लॉगिन करें (Login)</button>
+            
+            <p class="text-center mb-0 small">नया खाता बनाना है? <a href="#" onclick="showRegister(event)" class="text-success fw-bold">रजिस्टर करें</a></p>
         </div>
     </div>
 
 
-    <!-- 2. MAIN DASHBOARD SECTION (Initially Hidden) -->
+    <!-- 3. MAIN DASHBOARD SECTION (Initially Hidden) -->
     <div id="dashboard-section" style="display:none;">
         <nav class="navbar navbar-dark bg-dark shadow-sm">
             <div class="container-fluid">
@@ -45,7 +76,6 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal">🔒 Change Password</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <!-- Working Logout Button -->
                         <li><a class="dropdown-item text-danger fw-bold" href="#" onclick="logoutUser()">🚪 Logout (लॉग आउट)</a></li>
                     </ul>
                 </div>
@@ -64,7 +94,6 @@
                         <input type="text" id="ref-link-input" class="form-control" value="https://usdtglobalpool.com/?ref=UGP-9824X" readonly>
                         <button class="btn btn-dark" onclick="copyRefLink()">कोपी करें</button>
                     </div>
-                    <small class="text-muted">नोट: यह लिंक पूरी तरह गुप्त और सुरक्षित है।</small>
                 </div>
             </div>
 
@@ -170,33 +199,63 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Secure Login Logic (Mobile + Password)
-        function secureLogin() {
-            let phone = document.getElementById('login-phone').value;
-            let pass = document.getElementById('login-password').value;
+        // Switch views
+        function showLogin(e) {
+            e.preventDefault();
+            document.getElementById('register-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        }
+
+        function showRegister(e) {
+            e.preventDefault();
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('register-section').style.display = 'block';
+        }
+
+        // Registration Logic with Password Validation
+        function registerUser() {
+            let phone = document.getElementById('reg-phone').value;
+            let pass = document.getElementById('reg-password').value;
+            let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
             if(phone.length < 10) {
                 alert("कृपया सही मोबाइल नंबर दर्ज करें!");
                 return;
             }
-            if(pass.trim() === "") {
-                alert("कृपया अपना पासवर्ड दर्ज करें!");
+            if(!regex.test(pass)) {
+                alert("पासवर्ड कम से कम 8 अक्षर का होना चाहिए जिसमें Capital letter (A-Z), Small letter (a-z), Number (0-9) और Special character (@$!%*?&) शामिल होने चाहिए!");
                 return;
             }
 
-            // Hide Login, Show Dashboard
-            document.getElementById('auth-section').style.display = 'none';
+            alert("रजिस्ट्रेशन सफल रहा! अब आप लॉगिन कर सकते हैं।");
+            // Switch to Login screen automatically
+            document.getElementById('register-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('login-phone').value = phone;
+        }
+
+        // Secure Login Logic
+        function secureLogin() {
+            let phone = document.getElementById('login-phone').value;
+            let pass = document.getElementById('login-password').value;
+
+            if(phone.length < 10 || pass.trim() === "") {
+                alert("कृपया सही मोबाइल नंबर और पासवर्ड दर्ज करें!");
+                return;
+            }
+
+            // Open Dashboard
+            document.getElementById('login-section').style.display = 'none';
             document.getElementById('dashboard-section').style.display = 'block';
         }
 
-        // Logout Logic (Hides Dashboard, Shows Login Form)
+        // Logout Logic
         function logoutUser() {
             document.getElementById('dashboard-section').style.display = 'none';
-            document.getElementById('auth-section').style.display = 'block';
-            // Clear input fields
+            document.getElementById('login-section').style.display = 'block';
             document.getElementById('login-phone').value = '';
             document.getElementById('login-password').value = '';
-            alert("आप सफलतापूर्वक लॉग आउट हो चुके हैं!");
+            alert("सफलतापूर्वक लॉग आउट हो गए हैं!");
         }
 
         function copyRefLink() {
