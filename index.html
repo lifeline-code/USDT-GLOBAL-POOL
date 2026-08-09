@@ -3,105 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USDT Global Pool - Dashboard</title>
-    <!-- Bootstrap CSS -->
+    <title>USDT Global Pool - Login & Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: #ffc107 !important;
-        }
-        .wallet-box {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .wallet-box-2 {
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-            color: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .auth-card { max-width: 400px; margin: 50px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .wallet-box { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+        .wallet-box-2 { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">🌐 USDT Global Pool</a>
-            <div class="dropdown">
-                <button class="btn btn-outline-warning dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    ⚙️ Menu
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal">🔒 Change Password</a></li>
-                    <li><a class="dropdown-item text-danger" href="#">🚪 Logout</a></li>
-                </ul>
+    <!-- 1. LOGIN / AUTHENTICATION SECTION -->
+    <div id="auth-section" class="container">
+        <div class="auth-card">
+            <h3 class="text-center text-primary mb-3">🌐 USDT Global Pool</h3>
+            <p class="text-center text-muted small">मोबाइल नंबर और OTP से लॉगिन करें</p>
+            
+            <div class="mb-3">
+                <label class="form-label">मोबाइल नंबर</label>
+                <input type="text" id="login-phone" class="form-control" placeholder="अपना मोबाइल नंबर दर्ज करें">
             </div>
-        </div>
-    </nav>
+            
+            <button class="btn btn-outline-primary w-100 mb-3" onclick="sendOtp()">OTP भेजें (Send OTP)</button>
 
-    <!-- Main Container -->
-    <div class="container my-4">
-        
-        <!-- Welcome Banner -->
-        <div class="p-4 mb-4 bg-white rounded-3 shadow-sm border">
-            <h2 class="text-primary">Welcome to USDT Global Pool</h2>
-            <p class="text-muted mb-0">आईडी स्थिति: <span id="id-status" class="badge bg-success">Active (5 USDT)</span> | यूनिक आईडी: <span class="text-warning">UGP-8592</span></p>
-        </div>
-
-        <!-- Wallets Section -->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="wallet-box">
-                    <h5>💼 Working Income Wallet</h5>
-                    <h3 id="working-bal">25.00 USDT</h3>
-                    <small>निकासी के लिए डायरेक्ट अनिवार्य नहीं</small>
-                </div>
+            <div class="mb-3" id="otp-div" style="display:none;">
+                <label class="form-label">OTP दर्ज करें</label>
+                <input type="text" id="login-otp" class="form-control" placeholder="4-digit OTP (उदा: 1234)">
             </div>
-            <div class="col-md-6">
-                <div class="wallet-box-2">
-                    <h5>🌐 Non-Working Wallet</h5>
-                    <h3 id="non-working-bal">15.00 USDT</h3>
-                    <small>निकासी के लिए 2 डायरेक्ट अनिवार्य (3x कैपिंग लागू)</small>
-                </div>
-            </div>
-        </div>
 
-        <!-- Action Buttons Section -->
-        <div class="row mt-3">
-            <div class="col-12 text-center">
-                <button class="btn btn-primary btn-lg m-2" data-bs-toggle="modal" data-bs-target="#depositModal">Deposit (TRC-20)</button>
-                <button class="btn btn-warning btn-lg m-2 text-dark" data-bs-toggle="modal" data-bs-target="#upgradeModal">🚀 Upgrade ID</button>
-                <button class="btn btn-success btn-lg m-2" data-bs-toggle="modal" data-bs-target="#withdrawModal">Withdraw (10% Fee)</button>
-                <button class="btn btn-info btn-lg m-2 text-white">View Team Tree</button>
+            <div class="mb-3" id="pass-div" style="display:none;">
+                <label class="form-label">पासवर्ड</label>
+                <input type="password" id="login-pass" class="form-control" placeholder="पासवर्ड दर्ज करें">
             </div>
-        </div>
 
+            <button class="btn btn-primary w-100" id="login-btn" style="display:none;" onclick="verifyAndLogin()">लॉगिन करें (Login)</button>
+        </div>
     </div>
 
-    <!-- Deposit Modal (With Success Status) -->
+
+    <!-- 2. MAIN DASHBOARD SECTION (Initially Hidden) -->
+    <div id="dashboard-section" style="display:none;">
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-dark bg-dark shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">🌐 USDT Global Pool</a>
+                <div class="dropdown">
+                    <button class="btn btn-outline-warning dropdown-toggle" type="button" data-bs-toggle="dropdown">⚙️ Menu</button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal">🔒 Change Password</a></li>
+                        <li><a class="dropdown-item text-danger" href="javascript:location.reload();">🚪 Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Container -->
+        <div class="container my-4">
+            <div class="p-4 mb-4 bg-white rounded-3 shadow-sm border">
+                <h2 class="text-primary">Welcome to Dashboard</h2>
+                <p class="text-muted mb-0">आईडी स्थिति: <span id="id-status" class="badge bg-danger">Inactive (नॉन-वर्किंग बंद)</span> | यूनिक रेफरल कोड: <span class="text-warning fw-bold">UGP-X982Q</span></p>
+            </div>
+
+            <!-- Wallets Section -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="wallet-box">
+                        <h5>💼 Working Income Wallet</h5>
+                        <h3 id="working-bal">25.00 USDT</h3>
+                        <small>निकासी के लिए डायरेक्ट अनिवार्य नहीं</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="wallet-box-2">
+                        <h5>🌐 Non-Working Wallet (Active Only)</h5>
+                        <h3 id="non-working-bal">0.00 USDT</h3>
+                        <small>इनेक्टिव आईडी पर नॉन-वर्किंग मान्य नहीं है</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <button class="btn btn-primary btn-lg m-2" data-bs-toggle="modal" data-bs-target="#depositModal">Deposit (TRC-20)</button>
+                    <button class="btn btn-warning btn-lg m-2 text-dark" data-bs-toggle="modal" data-bs-target="#upgradeModal">🚀 Upgrade ID</button>
+                    <button class="btn btn-success btn-lg m-2" data-bs-toggle="modal" data-bs-target="#withdrawModal">Withdraw (10% Fee)</button>
+                    <button class="btn btn-info btn-lg m-2 text-white">View Team Tree</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modals (Deposit, Upgrade, Withdraw, Password Change) -->
+    <!-- Deposit Modal -->
     <div class="modal fade" id="depositModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Deposit USDT (TRC-20)</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+                <div class="modal-header"><h5 class="modal-title">Deposit USDT (TRC-20)</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body text-center">
-                    <p>कृपया नीचे दिए गए एड्रेस पर फंड भेजें:</p>
-                    <div class="p-2 bg-light border rounded text-break font-monospace fw-bold text-primary mb-3">
-                        TV5twCuksDpGL4vHrY6VvWb1dzvXdcBBZC
-                    </div>
+                    <p>एड्रेस पर फंड भेजें:</p>
+                    <div class="p-2 bg-light border rounded text-break font-monospace fw-bold text-primary mb-3">TV5twCuksDpGL4vHrY6VvWb1dzvXdcBBZC</div>
                     <input type="text" id="txid-input" class="form-control mb-3" placeholder="Enter Transaction Hash (TXID)">
                     <button class="btn btn-primary w-100" onclick="submitDeposit()">Submit Request</button>
                     <p id="deposit-success-msg" class="text-success fw-bold mt-3" style="display: none;">✅ आईडी सक्सेसफुल एक्टिव (ID Successfully Active)!</p>
@@ -110,17 +113,14 @@
         </div>
     </div>
 
-    <!-- Upgrade ID Modal -->
+    <!-- Upgrade Modal -->
     <div class="modal fade" id="upgradeModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Upgrade Package</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+                <div class="modal-header"><h5 class="modal-title">Upgrade Package</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body">
-                    <label class="form-label">सलेक्ट करें पैकेज:</label>
                     <select class="form-select mb-3" id="package-select">
+                        <option value="5">5 USDT (Activation)</option>
                         <option value="10">10 USDT</option>
                         <option value="30">30 USDT</option>
                         <option value="60">60 USDT</option>
@@ -134,24 +134,15 @@
         </div>
     </div>
 
-    <!-- Withdraw Modal (With Minus Balance Logic) -->
+    <!-- Withdraw Modal -->
     <div class="modal fade" id="withdrawModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Withdrawal Request</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+                <div class="modal-header"><h5 class="modal-title">Withdrawal Request</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">TRC-20 Wallet Address</label>
-                        <input type="text" class="form-control" placeholder="Enter your TRC-20 address">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Amount (Min 10 USDT)</label>
-                        <input type="number" id="withdraw-amount" class="form-control" placeholder="0.00">
-                        <small class="text-danger">नोट: हर निकासी पर 10% चार्ज कटेगा और बैलेंस से माइनस हो जाएगा।</small>
-                    </div>
+                    <input type="text" class="form-control mb-3" placeholder="TRC-20 Wallet Address">
+                    <input type="number" id="withdraw-amount" class="form-control mb-2" placeholder="Amount (Min 10 USDT)">
+                    <small class="text-danger d-block mb-3">10% विथड्रॉल चार्ज कटेगा और बैलेंस माइनस हो जाएगा।</small>
                     <button class="btn btn-success w-100" onclick="processWithdrawal()">Submit Withdrawal</button>
                 </div>
             </div>
@@ -162,74 +153,67 @@
     <div class="modal fade" id="changePasswordModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Change Password</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+                <div class="modal-header"><h5 class="modal-title">Change Password</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Current Password</label>
-                        <input type="password" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">New Password (कम से कम 8 अक्षर, Small, Capital & Special Character)</label>
-                        <input type="password" id="new-pass" class="form-control" placeholder="Ex: Abcd@1234">
-                    </div>
+                    <input type="password" class="form-control mb-3" placeholder="Current Password">
+                    <input type="password" id="new-pass" class="form-control mb-3" placeholder="New Password (कम से कम 8 अक्षर, A-Z, a-z, Special Char)">
                     <button class="btn btn-primary w-100" onclick="validatePassword()">Update Password</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript for Logic -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Deposit Submit Logic -> Shows Active Message
-        function submitDeposit() {
-            let txid = document.getElementById('txid-input').value;
-            if(txid.trim() === "") {
-                alert("कृपया वैध TXID दर्ज करें!");
-                return;
-            }
-            document.getElementById('deposit-success-msg').style.display = 'block';
-            document.getElementById('id-status').innerText = 'Active (Verified)';
+        function sendOtp() {
+            let phone = document.getElementById('login-phone').value;
+            if(phone.length < 10) { alert("कृपया सही मोबाइल नंबर दर्ज करें!"); return; }
+            alert("OTP आपके नंबर पर भेज दिया गया है! (Demo OTP: 1234)");
+            document.getElementById('otp-div').style.display = 'block';
+            document.getElementById('pass-div').style.display = 'block';
+            document.getElementById('login-btn').style.display = 'block';
         }
 
-        // Withdrawal Logic -> Minus Balance
+        function verifyAndLogin() {
+            let otp = document.getElementById('login-otp').value;
+            if(otp !== "1234") { alert("गलत OTP!"); return; }
+            
+            // Hide Login, Show Dashboard
+            document.getElementById('auth-section').style.display = 'none';
+            document.getElementById('dashboard-section').style.display = 'block';
+        }
+
+        function submitDeposit() {
+            let txid = document.getElementById('txid-input').value;
+            if(txid.trim() === "") { alert("TXID दर्ज करें!"); return; }
+            document.getElementById('deposit-success-msg').style.display = 'block';
+            document.getElementById('id-status').className = 'badge bg-success';
+            document.getElementById('id-status').innerText = 'Active (नॉन-वर्किंग चालू)';
+            document.getElementById('non-working-bal').innerText = '15.00 USDT'; // Active hone par pool chalu
+        }
+
         function processWithdrawal() {
             let wAmount = parseFloat(document.getElementById('withdraw-amount').value);
             let currentBal = parseFloat(document.getElementById('working-bal').innerText);
+            if(isNaN(wAmount) || wAmount < 10) { alert("न्यूनतम निकासी 10 USDT है!"); return; }
+            if(wAmount > currentBal) { alert("पर्याप्त बैलेंस नहीं है!"); return; }
             
-            if(isNaN(wAmount) || wAmount < 10) {
-                alert("न्यूनतम निकासी 10 USDT है!");
-                return;
-            }
-            if(wAmount > currentBal) {
-                alert("वॉलेट में पर्याप्त बैलेंस नहीं है!");
-                return;
-            }
-
-            // Minus balance logic
-            let finalBal = currentBal - wAmount;
-            document.getElementById('working-bal').innerText = finalBal.toFixed(2) + " USDT";
-            alert("विथड्रॉल रिक्वेस्ट सफल रही! आपके बैलेंस से राशि काट (Minus) ली गई है।");
+            document.getElementById('working-bal').innerText = (currentBal - wAmount).toFixed(2) + " USDT";
+            alert("विथड्रॉल सफल रहा! बैलेंस से राशि माइनस हो गई है।");
         }
 
-        // Package Upgrade Logic
         function upgradePackage() {
             let pkg = document.getElementById('package-select').value;
-            alert("सफलतापूर्वक आईडी " + pkg + " USDT के पैकेज में अपग्रेड हो गई है!");
+            alert("सफलतापूर्वक पैकेज " + pkg + " USDT से अपग्रेड हो गया!");
         }
 
-        // Password Validation Logic (Min 8 chars, Upper, Lower, Special)
         function validatePassword() {
             let pass = document.getElementById('new-pass').value;
             let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-            
             if(!regex.test(pass)) {
-                alert("पासवर्ड कम से कम 8 अक्षरों का होना चाहिए जिसमें Capital letter (A-Z), Small letter (a-z), Number (0-9) और Special character (@$!%*?&) शामिल होने चाहिए!");
+                alert("पासवर्ड कम से कम 8 अक्षर का होना चाहिए जिसमें Capital, Small, Number और Special Character शामिल हों!");
             } else {
-                alert("पासवर्ड सफलतापूर्वक बदल दिया गया है!");
+                alert("पासवर्ड सफलतापूर्वक बदल गया है!");
             }
         }
     </script>
