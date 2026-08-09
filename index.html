@@ -12,48 +12,37 @@
 </head>
 <body>
 
-    <!-- LOGIN SECTION -->
-    <div id="login-section" class="container">
-        <div class="auth-card">
-            <h3 class="text-center text-primary">🌐 USDT Global Pool</h3>
-            <input type="text" id="phone" class="form-control mb-3" placeholder="मोबाइल नंबर">
-            <input type="password" id="pass" class="form-control mb-3" placeholder="पासवर्ड">
-            <button class="btn btn-primary w-100" onclick="login()">Login</button>
-        </div>
-    </div>
-
     <!-- DASHBOARD -->
-    <div id="dashboard-section" class="container mt-4" style="display:none;">
-        <div class="wallet-box">
+    <div id="dashboard-section" class="container mt-4">
+        <div class="wallet-box text-center">
             <h5>Working Wallet: 0.00 USDT</h5>
         </div>
         
         <div class="d-grid gap-2">
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeVC6O8BGGcnaqIxVcGG8VPmMfsuKuS0CIY4qZwJlRV31tSLw/viewform" target="_blank" class="btn btn-primary btn-lg">📥 Submit Deposit / Withdraw Request</a>
-            
-            <div class="card mt-3">
+            <!-- Deposit Section with BEP-20 Address -->
+            <div class="card bg-light">
                 <div class="card-body">
-                    <h5>🔍 ट्रांजैक्शन स्टेटस</h5>
+                    <h5 class="text-primary">📥 Deposit USDT (BEP-20)</h5>
+                    <p class="small">फंड इस एड्रेस पर भेजें:</p>
+                    <div class="alert alert-dark font-monospace text-break" style="font-size: 12px;">
+                        0x61Dacc9840D88ef901035a9bec90411960eB464E
+                    </div>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeVC6O8BGGcnaqIxVcGG8VPmMfsuKuS0CIY4qZwJlRV31tSLw/viewform" 
+                       target="_blank" class="btn btn-primary w-100">Submit TXID After Deposit</a>
+                </div>
+            </div>
+            
+            <!-- Status Check -->
+            <div class="card mt-2">
+                <div class="card-body">
+                    <h5>🔍 अपना स्टेटस चेक करें</h5>
                     <button class="btn btn-info w-100" onclick="window.open('https://docs.google.com/spreadsheets/d/1yfmHySp2dz3s9yrC21Qb_GhVO_6UYRQuUO4c4dgKG9Y/edit', '_blank')">Check My Status</button>
                 </div>
             </div>
 
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5>👥 मेरी टीम रिपोर्ट</h5>
-                    <button class="btn btn-warning w-100 fw-bold" onclick="window.open('https://docs.google.com/spreadsheets/d/1yfmHySp2dz3s9yrC21Qb_GhVO_6UYRQuUO4c4dgKG9Y/edit', '_blank')">🚀 View My Team Stats</button>
-                </div>
-            </div>
-            
             <button class="btn btn-danger mt-3" onclick="location.reload()">🚪 Logout</button>
         </div>
     </div>
 
-    <script>
-        function login() {
-            document.getElementById('login-section').style.display = 'none';
-            document.getElementById('dashboard-section').style.display = 'block';
-        }
-    </script>
 </body>
 </html>
