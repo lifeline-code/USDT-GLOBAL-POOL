@@ -12,8 +12,18 @@
 </head>
 <body>
 
+    <!-- LOGIN SECTION -->
+    <div id="login-section" class="container">
+        <div class="auth-card">
+            <h3 class="text-center text-primary">🌐 USDT Global Pool</h3>
+            <input type="text" id="phone" class="form-control mb-3" placeholder="मोबाइल नंबर">
+            <input type="password" id="pass" class="form-control mb-3" placeholder="पासवर्ड">
+            <button class="btn btn-primary w-100" onclick="login()">Login</button>
+        </div>
+    </div>
+
     <!-- DASHBOARD -->
-    <div id="dashboard-section" class="container mt-4">
+    <div id="dashboard-section" class="container mt-4" style="display:none;">
         <div class="wallet-box text-center">
             <h5>Working Wallet: 0.00 USDT</h5>
         </div>
@@ -32,6 +42,10 @@
                 </div>
             </div>
             
+            <!-- Direct Google Sheet Button -->
+            <a href="https://docs.google.com/spreadsheets/d/1yfmHySp2dz3s9yrC21Qb_GhVO_6UYRQuUO4c4dgKG9Y/edit" 
+               target="_blank" class="btn btn-success btn-lg mt-2">📊 Open Direct Google Sheet</a>
+
             <!-- Status Check -->
             <div class="card mt-2">
                 <div class="card-body">
@@ -44,5 +58,11 @@
         </div>
     </div>
 
+    <script>
+        function login() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('dashboard-section').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
